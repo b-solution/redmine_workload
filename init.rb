@@ -1,0 +1,18 @@
+require 'redmine'
+
+if Redmine::VERSION::MAJOR <= 2 and Redmine::VERSION::MINOR < 2
+    require_dependency 'workload_redmine20_patch'
+end
+require_dependency 'workload_issue_patch'
+require_dependency 'workload_user_patch'
+
+Redmine::Plugin.register :redmine_workload do
+  name 'Redmine Workload plugin'
+  author 'Vincent Agnano'
+  description 'This is a workload plugin for Redmine'
+  version '0.0.1'
+  url 'http://www.github.com/bilel-kedidi/redmine_workload'
+  author_url 'http://www.github.com/bilel-kedidi'
+  permission :workload, { :workload => [:index] }, :public => true
+  menu :project_menu, :workload, { :controller => 'workload', :action => 'index' }, :after => :activity, :param => :project_id
+end

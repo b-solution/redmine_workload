@@ -1,0 +1,45 @@
+[
+<% last_issue = @issues.values.last.last %>
+<% for user, issues in @issues.each_pair -%>
+    {
+        "name": "<h3><%= user %></h3>",
+        "desc": "",
+        "values": [
+            <% last_block = user.workload(@project.id).last %>
+            <% for block in user.workload(@project.id) -%>
+            {
+                "from": "/Date('<%= block[:start_date] %>')/",
+                "to": "/Date('<%= block[:due_date] %>')/",
+                "desc": "<%= block[:workload] %>",
+                "label": "<%= block[:workload] %>",
+                "customClass": "hours hours<%= hours_to_class(block[:workload]) %>",
+                "dataObj": ""
+            }<% unless block == last_block %>,<% end %>
+            <% end -%>
+        ]
+    },
+    <% issues.each do |issue| -%>
+    {
+        "name": "<a href=\"<%= issue_path(issue) %>\">#<%= issue.id %></a> <%= issue.subject %>",
+        "desc": "",
+        "values": [
+            <% issue.time_entries.where(user_id: user.id).each_with_index do |time_entry, idx| %>
+            <% unless idx.zero? %>
+            ,
+            <% end %>
+            {
+                "from": "/Date('<%= time_entry.spent_on %>')/",
+                "to": "/Date('<%=  time_entry.spent_on %>')/",
+                "desc": "<%= time_entry.comments %>",
+                "label": "<%= time_entry.hours %>",
+                "customClass": "hours hours<%= hours_to_class(time_entry.hours) %>",
+                "dataObj": {"url": "<%= issue_path(issue) %>"}
+
+            }
+            <% end %>
+        ]
+    }<% unless issue == last_issue %>,<% end %>
+    <% end -%>
+
+<% end -%>
+]
