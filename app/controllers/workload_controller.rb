@@ -20,8 +20,7 @@ class WorkloadController < ApplicationController
     retrieve_query
 
     @project = Project.find(params[:project_id])
-    @issues = Issue.workload_estimable(@project).group_by(&:assigned_to)
-    puts @issues
+    @issues = Issue.where(id: @query.issues.map(&:id)).workload_estimable(@project).group_by(&:assigned_to)
   end
 
   def hours_to_class(hours)

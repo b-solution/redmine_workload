@@ -1,7 +1,9 @@
 <% html_title "Workload" %>
 
 <h2>Workload</h2>
-
+<%= form_tag(workload_project_path(@project), :method => :get, :id => 'query_form') do %>
+    <%= render :partial => 'queries/query_form' %>
+<% end %>
 <% if @issues.length > 0 %>
     <div id="timeline"></div>
 
