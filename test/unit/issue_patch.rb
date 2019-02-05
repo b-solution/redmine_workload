@@ -12,7 +12,7 @@ class IssuePatchTest < ActionController::TestCase
 
   def test_make_sure_its_all_fine
     assert_equal 10, @issue.duration
-    assert_equal 8, @issue.working_duration
+    assert_equal 10, @issue.working_duration
     assert_equal 0, @issue.estimated_hours.to_i
   end
 

@@ -1,5 +1,5 @@
 [
-<% last_issue = @issues.values.last.last %>
+<% last_issue = @issues.values.last&.last %>
 <% for user, issues in @issues.each_pair -%>
     <% user_workload = user.workload(issues) %>
     {
