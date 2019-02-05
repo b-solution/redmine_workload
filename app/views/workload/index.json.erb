@@ -1,12 +1,13 @@
 [
 <% last_issue = @issues.values.last.last %>
 <% for user, issues in @issues.each_pair -%>
+    <% user_workload = user.workload(issues) %>
     {
         "name": "<h3><%= user %></h3>",
         "desc": "",
         "values": [
-            <% last_block = user.workload(@project.id).last %>
-            <% for block in user.workload(@project.id) -%>
+            <% last_block = user_workload.last %>
+            <% for block in user_workload %>
             {
                 "from": "/Date('<%= block[:start_date] %>')/",
                 "to": "/Date('<%= block[:due_date] %>')/",

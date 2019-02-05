@@ -25,6 +25,7 @@ module Workload
             project_id, self.id
         )
       end
+
       def workload_issues(project_id)
         Issue.open.
             joins(:assigned_to).
@@ -37,8 +38,8 @@ module Workload
             order("#{User.table_name}.lastname ASC")
 
       end
-      def workload(project)
-        issues = self.workload_issues(project)
+
+      def workload(issues)
         schedule = {}
 
         # make issues into a :date=>:workload schedule
