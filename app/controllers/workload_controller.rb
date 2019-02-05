@@ -20,6 +20,10 @@ class WorkloadController < ApplicationController
     retrieve_query
 
     @project = Project.find(params[:project_id])
+    if values = @query.filters.dig('project_id', :values)
+      projects =  Project.where(id: values).pluck(:id).presence ||  Project.where(identifier: values).pluck(:id)
+      @query.filters['project_id'][:values] = projects
+    end
     @issues = Issue.where(id: @query.issues.map(&:id)).workload_estimable(@project).group_by(&:assigned_to)
   end
 
