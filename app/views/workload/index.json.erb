@@ -24,20 +24,14 @@
         "name": "<a href=\"<%= issue_path(issue) %>\">#<%= issue.id %></a> <%= issue.subject %>",
         "desc": "",
         "values": [
-            <% issue.time_entries.where(user_id: user.id).each_with_index do |time_entry, idx| %>
-            <% unless idx.zero? %>
-            ,
-            <% end %>
             {
-                "from": "/Date('<%= time_entry.spent_on %>')/",
-                "to": "/Date('<%=  time_entry.spent_on %>')/",
-                "desc": "<%= time_entry.comments %>",
-                "label": "<%= time_entry.hours %>",
-                "customClass": "hours hours<%= hours_to_class(time_entry.hours) %>",
+                "from": "/Date('<%= issue.start_date %>')/",
+                "to": "/Date('<%= issue.due_date %>')/",
+                "desc": "<%= issue %>",
+                "label": "<%= issue.workload %>",
+                "customClass": "hours hours<%= hours_to_class(issue.workload) %>",
                 "dataObj": {"url": "<%= issue_path(issue) %>"}
-
             }
-            <% end %>
         ]
     }<% unless issue == last_issue %>,<% end %>
     <% end -%>
